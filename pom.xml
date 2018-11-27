@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>lt.lb</groupId>
+    <artifactId>ObjectDBjavaFX</artifactId>
+    <version>1.0</version>
+    <packaging>jar</packaging>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <!--<lb.commons.version>7f8ffb49690ebefdf099d17721e8539c60957a8d</lb.commons.version>-->
+        <!--<lb.commons.dir>com.github.laim0nas100.Commons</lb.commons.dir>-->
+        <lb.commons.dir>lt.lb.Commons</lb.commons.dir>
+        <lb.commons.version>local-jar</lb.commons.version>
+    </properties>
+    
+    
+    <repositories>
+        <repository>
+            <id>objectdb</id>
+            <name>ObjectDB Repository</name>
+            <url>http://m2.objectdb.com</url>
+        </repository>
+        <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </repository>
+    </repositories>
+    
+    <dependencies>
+        <dependency>
+            <groupId>com.objectdb</groupId>
+            <artifactId>objectdb</artifactId>
+            <version>2.7.6_01</version>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.persistence</groupId>
+            <artifactId>javax.persistence</artifactId>
+            <version>2.1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.transaction</groupId>
+            <artifactId>jta</artifactId>
+            <version>1.1</version>
+        </dependency>
+        <dependency>
+            <groupId>${lb.commons.dir}</groupId>
+            <version>${lb.commons.version}</version>
+            <artifactId>commonslb-log</artifactId>
+            
+        </dependency>
+        <dependency>
+            <groupId>${lb.commons.dir}</groupId>
+            <version>${lb.commons.version}</version>
+            <artifactId>commonslb-core</artifactId>
+            
+        </dependency>
+        <dependency>
+            <groupId>${lb.commons.dir}</groupId>
+            <version>${lb.commons.version}</version>
+            <artifactId>commonslb-javafx</artifactId>
+            
+        </dependency>
+        <dependency>
+            <groupId>${lb.commons.dir}</groupId>
+            <version>${lb.commons.version}</version>
+            <artifactId>commonslb-threads</artifactId>
+            
+        </dependency>
+    </dependencies>
+</project>
