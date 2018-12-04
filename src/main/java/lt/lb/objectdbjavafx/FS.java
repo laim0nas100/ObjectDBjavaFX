@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Supplier;
-import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
 import lt.lb.commons.F;
 import lt.lb.commons.Log;

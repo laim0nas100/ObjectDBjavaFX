@@ -46,7 +46,6 @@ public class LauncherController implements InjectableController {
         JDOTests.selectEAVbyMetaFileName();
         JDOTests.fullTextSearch1();
         JDOTests.fullTextSearch2();
-        JDOTests.fullTextSearch3();
 
         JDOTests.selectByTypeTests();
     }

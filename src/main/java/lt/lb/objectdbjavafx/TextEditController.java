@@ -6,6 +6,7 @@
 package lt.lb.objectdbjavafx;
 
 import java.net.URL;
+import java.util.Date;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextArea;
@@ -47,7 +48,7 @@ public class TextEditController implements InjectableController {
     public void save() {
         Q.submit((pm) -> {
             file.meta.get(MetaEnums.textContent).setValue(area.getText());
-            pm.refresh(file);
+            file.meta.get(MetaEnums.lastModifiedDate).setValue(new Date());
         });
     }
 

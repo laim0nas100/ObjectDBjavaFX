@@ -63,10 +63,6 @@ public class JDOTests {
         Log.printLines(FS.fullTextSearch("text"));
     }
 
-    public static void fullTextSearch3() {
-        Log.print("Full text search test with [some long text]");
-        Log.printLines(FS.fullTextSearch("some long text"));
-    }
 
     public static void queryTest(String str) {
         Optional<Throwable> submit = Q.submit(pm -> {
