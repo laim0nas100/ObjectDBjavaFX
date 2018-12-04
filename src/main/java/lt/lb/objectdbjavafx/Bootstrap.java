@@ -79,6 +79,7 @@ public class Bootstrap {
     public static void full(){
         // delete prev database, ignore if not found 
         F.checkedRun(() -> {
+            Log.print("Database uri:"+Main.databaseUri);
             File file = new File(Main.databaseUri);
             Path parent = Paths.get(file.getAbsolutePath()).getParent();
             Log.print("Parent", parent.toAbsolutePath(), Files.isDirectory(parent));
@@ -92,6 +93,8 @@ public class Bootstrap {
                 }
             });
         });
+        
+        com.objectdb.Enhancer.enhance("lt.lb.objectdbjavafx.model.*");
 
         // set up db
         Bootstrap.bootstrapMeta();
