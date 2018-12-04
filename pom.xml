@@ -44,18 +44,20 @@
             <artifactId>jta</artifactId>
             <version>1.1</version>
         </dependency>
-        <dependency>
-            <groupId>${lb.commons.dir}</groupId>
-            <version>${lb.commons.version}</version>
-            <artifactId>commonslb-log</artifactId>
-            
-        </dependency>
+        
         <dependency>
             <groupId>${lb.commons.dir}</groupId>
             <version>${lb.commons.version}</version>
             <artifactId>commonslb-core</artifactId>
             
         </dependency>
+        <dependency>
+            <groupId>${lb.commons.dir}</groupId>
+            <version>${lb.commons.version}</version>
+            <artifactId>commonslb-log</artifactId>
+            
+        </dependency>
+        
         <dependency>
             <groupId>${lb.commons.dir}</groupId>
             <version>${lb.commons.version}</version>
@@ -69,4 +71,39 @@
             
         </dependency>
     </dependencies>
+    
+    
+    <build>
+    <plugins>
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-jar-plugin</artifactId>
+            <version>3.1.0</version>
+            <configuration>
+                <archive>
+                    <manifest>
+                        <mainClass>lt.lb.objectdbjavafx.Main</mainClass>
+                    </manifest>
+                </archive>
+            </configuration>
+        </plugin>
+
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-shade-plugin</artifactId>
+            <version>2.3</version>
+            <configuration>
+                <createDependencyReducedPom>false</createDependencyReducedPom>
+            </configuration>
+            <executions>
+                <execution>
+                    <phase>package</phase>
+                    <goals>
+                        <goal>shade</goal>
+                    </goals>
+                </execution>
+            </executions>
+        </plugin>
+    </plugins>
+</build>
 </project>
