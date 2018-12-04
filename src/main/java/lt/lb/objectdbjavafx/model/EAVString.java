@@ -14,7 +14,7 @@ import lt.lb.commons.F;
  */
 @PersistenceCapable
 public class EAVString extends EAValue{
-
+public static transient String clsName = EAVString.class.getName();
     public String str;
     @Override
     public String get() {

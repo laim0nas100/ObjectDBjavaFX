@@ -5,14 +5,16 @@
  */
 package lt.lb.objectdbjavafx;
 
-import java.util.Arrays;
+import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Optional;
 import lt.lb.commons.F;
 import lt.lb.commons.Log;
 import lt.lb.objectdbjavafx.model.EAVType;
 import lt.lb.objectdbjavafx.model.FileEntity;
 import lt.lb.objectdbjavafx.model.FileEntityFolder;
-import lt.lb.objectdbjavafx.model.Meta;
 
 /**
  *
@@ -23,12 +25,12 @@ public class Bootstrap {
     public static void bootstrapMeta() {
         Optional<Throwable> submit = Q.submit(pm -> {
             Log.print("Bootstrap Meta");
-            FAPI.createMeta(MetaEnums.fileName, EAVType.STRING);
-            FAPI.createMeta(MetaEnums.root, EAVType.BOOLEAN);
-            FAPI.createMeta(MetaEnums.createdDate, EAVType.DATE);
-            FAPI.createMeta(MetaEnums.lastModifiedDate, EAVType.DATE);
-            FAPI.createMeta(MetaEnums.textContent, EAVType.STRING);
-            FAPI.createMeta(MetaEnums.parentID, EAVType.STRING);
+            FS.createMeta(MetaEnums.fileName, EAVType.STRING);
+            FS.createMeta(MetaEnums.root, EAVType.BOOLEAN);
+            FS.createMeta(MetaEnums.createdDate, EAVType.DATE);
+            FS.createMeta(MetaEnums.lastModifiedDate, EAVType.DATE);
+            FS.createMeta(MetaEnums.textContent, EAVType.STRING);
+            FS.createMeta(MetaEnums.parentID, EAVType.STRING);
             Log.print("Bootstrap meta ok");
         });
         if (submit.isPresent()) {
@@ -41,28 +43,28 @@ public class Bootstrap {
         Optional<Throwable> submit = Q.submit((em) -> {
 
             Log.print("Bootsrap FS");
-            FileEntityFolder folder = FAPI.createFolder("MainFolder");
+            FileEntityFolder folder = FS.createFolder("MainFolder");
 
-            folder.meta.addAttribute(FAPI.valueOf("root", true));
+            folder.meta.addAttribute(FS.valueOf("root", true));
 
             F.unsafeRun(() -> {
-                FileEntity f1 = FAPI.createTextFile("File1.txt", "Some text f1");
+                FileEntity f1 = FS.createTextFile("File1.txt", "Some text f1");
 
-                FileEntity f2 = FAPI.createTextFile("File2.txt", "Some other text f2");
+                FileEntity f2 = FS.createTextFile("File2.txt", "Some other text f2");
 
-                FAPI.addAssignFolder(folder, f1);
-                FAPI.addAssignFolder(folder, f2);
+                FS.addAssignFolder(folder, f1);
+                FS.addAssignFolder(folder, f2);
             });
 
             F.unsafeRun(() -> {
 
-                FileEntity f1 = FAPI.createTextFile("File11.txt", "Some text f11");
+                FileEntity f1 = FS.createTextFile("File11.txt", "Some text f11");
 
-                FileEntity f2 = FAPI.createTextFile("File22.txt", "Some other text f22");
-                FileEntityFolder deeper = FAPI.createFolder("DeeperFolder");
-                FAPI.addAssignFolder(deeper, f1);
-                FAPI.addAssignFolder(deeper, f2);
-                FAPI.addAssignFolder(folder,deeper);
+                FileEntity f2 = FS.createTextFile("File22.txt", "Some other text f22");
+                FileEntityFolder deeper = FS.createFolder("DeeperFolder");
+                FS.addAssignFolder(deeper, f1);
+                FS.addAssignFolder(deeper, f2);
+                FS.addAssignFolder(folder,deeper);
             });
 
             Log.print("Total file count:" + folder.count());
@@ -72,5 +74,29 @@ public class Bootstrap {
         if (submit.isPresent()) {
             throw new RuntimeException(submit.get());
         }
+    }
+    
+    public static void full(){
+        // delete prev database, ignore if not found 
+        F.checkedRun(() -> {
+            File file = new File(Main.databaseUri);
+            Path parent = Paths.get(file.getAbsolutePath()).getParent();
+            Log.print("Parent", parent.toAbsolutePath(), Files.isDirectory(parent));
+            Files.walk(parent).forEach(path -> {
+                if (!Files.isDirectory(path)) {
+                    F.unsafeRun(() -> {
+                        boolean deleted = Files.deleteIfExists(path);
+                        Log.print("Deleted:", path, deleted);
+                    });
+
+                }
+            });
+        });
+
+        // set up db
+        Bootstrap.bootstrapMeta();
+        Bootstrap.bootstrapFileSystem();
+
+        Log.print("DB setup ok");
     }
 }

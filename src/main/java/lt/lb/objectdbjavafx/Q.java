@@ -25,12 +25,19 @@ import lt.lb.objectdbjavafx.model.FileEntity;
  * @author laim0nas100
  */
 public class Q {
+
     public static final String packPrefix = "lt.lb.objectdbjavafx.model.";
+
+    public static String esc(String str) {
+        return "\"" + str + "\"";
+    }
+    public static String cls(Class cls){
+        return cls.getName();
+    }
 
     public static void persist(FileEntity ent) {
         Q.submit(pm -> {
             pm.makePersistent(ent);
-            pm.makePersistent(ent.meta);
         });
     }
 
@@ -52,6 +59,7 @@ public class Q {
         List<T> cast = F.cast(q.executeWithArray(params));
         return cast;
     }
+
     public static <T> void getAll(Consumer<List<T>> cons, Query q, Object... params) {
         cons.accept(F.cast(q.executeWithArray(params)));
     }
@@ -101,14 +109,14 @@ public class Q {
         return checkedRun;
     }
 
-    public static Optional<Throwable> submit(Lambda.L1<PersistenceManager> lam, boolean readonly) {
+    public static Optional<Throwable> submit(Lambda.L1<PersistenceManager> pm, boolean readonly) {
         return submit(() -> {
-            lam.accept(Main.pm.get());
+            pm.accept(Main.pm.get());
         }, readonly);
     }
 
-    public static Optional<Throwable> submit(Lambda.L1<PersistenceManager> lam) {
-        return submit(lam, false);
+    public static Optional<Throwable> submit(Lambda.L1<PersistenceManager> pm) {
+        return submit(pm, false);
     }
 
 }

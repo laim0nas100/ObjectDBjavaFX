@@ -16,7 +16,7 @@ import lt.lb.commons.UUIDgenerator;
  */
 @PersistenceCapable
 public class FileEntity {
-
+public static transient String clsName = FileEntity.class.getName();
     @PrimaryKey
     public String id = UUIDgenerator.nextUUID(this.getClass().getSimpleName());
     

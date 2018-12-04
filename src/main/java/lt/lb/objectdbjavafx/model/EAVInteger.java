@@ -14,6 +14,8 @@ import lt.lb.commons.F;
  */
 @PersistenceCapable
 public class EAVInteger extends EAValue{
+    public static transient String clsName = EAVInteger.class.getName();
+    
     public Long integer;
 
     @Override

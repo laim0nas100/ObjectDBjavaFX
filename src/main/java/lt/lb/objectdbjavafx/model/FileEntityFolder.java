@@ -20,8 +20,8 @@ import lt.lb.objectdbjavafx.Q;
 @PersistenceCapable
 public class FileEntityFolder extends FileEntity {
 
+    public static transient String clsName = FileEntityFolder.class.getName();
     private Set<FileEntity> files = new HashSet<>();
-    
 
     public Set<FileEntity> getFiles() {
         return files;
@@ -30,8 +30,8 @@ public class FileEntityFolder extends FileEntity {
     @Override
     public Long count() {
         Long c = super.count();
-        for(FileEntity fe:files){
-            c+= fe.count();
+        for (FileEntity fe : files) {
+            c += fe.count();
         }
         return c;
     }

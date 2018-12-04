@@ -14,6 +14,8 @@ import lt.lb.commons.F;
  */
 @PersistenceCapable
 public class EAVDecimal extends EAValue{
+    
+    public static transient String clsName = EAVDecimal.class.getName();
     public Double decimal;
 
     @Override

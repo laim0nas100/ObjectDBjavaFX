@@ -6,14 +6,9 @@
 package lt.lb.objectdbjavafx.model;
 
 import java.io.Serializable;
-import java.util.Date;
-import java.util.Optional;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.PrimaryKey;
-import lt.lb.commons.ArrayOp;
-import lt.lb.commons.F;
 import lt.lb.commons.UUIDgenerator;
-import lt.lb.commons.containers.tuples.Tuples;
 import lt.lb.commons.interfaces.ValueProxy;
 
 /**
@@ -23,6 +18,8 @@ import lt.lb.commons.interfaces.ValueProxy;
 @PersistenceCapable
 public class EAValue implements Serializable, ValueProxy<Object> {
 
+    public static transient String clsName = EAValue.class.getName();
+    
     @PrimaryKey
     public String id = UUIDgenerator.nextUUID(this.getClass().getSimpleName());
 

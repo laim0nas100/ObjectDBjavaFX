@@ -16,7 +16,7 @@ import lt.lb.commons.UUIDgenerator;
  */
 @PersistenceCapable
 public class Meta implements Serializable {
-
+public static transient String clsName = Meta.class.getName();
     
     @PrimaryKey
     public String id = UUIDgenerator.nextUUID(this.getClass().getSimpleName());

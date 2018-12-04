@@ -31,9 +31,9 @@ import lt.lb.objectdbjavafx.model.FileEntityFolder;
  */
 public class Main {
 
-    public static final boolean tests = false;
+    public static final boolean tests = true;
 
-    public static final String databaseUri = "../db/database.odb";
+    public static final String databaseUri = System.getProperty("user.dir") + "/db/database.odb";
     public static final LazyValue<PersistenceManager> pm = LazyValue.of(() -> {
         return Utilities.getPersistenceManager(databaseUri);
     });
@@ -78,7 +78,7 @@ public class Main {
                 controller.filePopulatingFunction = update;
                 newFrame.getStage().show();
                 controller.update();
-                
+
             });
         });
     }
@@ -105,43 +105,13 @@ public class Main {
 
     public static void main(String... args) {
 
-        // delete prev database, ignore if not found 
-        F.checkedRun(() -> {
-            File file = new File(databaseUri);
-            Path parent = Paths.get(file.getAbsolutePath()).getParent();
-            Log.print("Parent", parent.toAbsolutePath(), Files.isDirectory(parent));
-            Files.walk(parent).forEach(path -> {
-                if (!Files.isDirectory(path)) {
-                    F.unsafeRun(() -> {
-                        boolean deleted = Files.deleteIfExists(path);
-                        Log.print("Deleted:", path, deleted);
-                    });
-
-                }
+        URL resource = sceneManager.getResource("/fxml/Launcher.fxml");
+        F.unsafeRun(() -> {
+            Frame newFrame = sceneManager.newFrame(resource, "Launcher");
+            LauncherController controller = newFrame.getController();
+            FX.submit(() -> {
+                newFrame.getStage().show();
             });
         });
-
-        // set up db
-        Bootstrap.bootstrapMeta();
-        Bootstrap.bootstrapFileSystem();
-
-        Log.print("DB setup ok");
-
-        if (tests) {
-            Log.print("Tests!!!");
-            JDOTests.selectAllFolders();
-            JDOTests.selectJustFiles();
-            JDOTests.selectEAVbyMetaRoot();
-            JDOTests.selectEAVbyMetaFileName();
-            JDOTests.fullTextSearch1();
-            JDOTests.fullTextSearch2();
-            JDOTests.fullTextSearch3();
-
-            Main.pm.get().close();
-            System.exit(0);
-        } else {
-            Main.makeNewWindow(FAPI.getMainFolder());
-        }
-
     }
 }

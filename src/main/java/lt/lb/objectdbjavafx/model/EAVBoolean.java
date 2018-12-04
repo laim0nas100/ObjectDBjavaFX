@@ -15,6 +15,7 @@ import lt.lb.commons.F;
 @PersistenceCapable
 public class EAVBoolean extends EAValue {
 
+    public static transient String clsName = EAVBoolean.class.getName();
     public Boolean bool;
 
     @Override

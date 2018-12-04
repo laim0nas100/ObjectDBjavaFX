@@ -1,6 +1,7 @@
 package lt.lb.objectdbjavafx;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
@@ -27,6 +28,7 @@ import lt.lb.commons.F;
 import lt.lb.commons.Log;
 import lt.lb.commons.containers.BasicProperty;
 import lt.lb.commons.javafx.CosmeticsFX;
+import lt.lb.commons.javafx.CosmeticsFX.ExtTableView;
 import lt.lb.commons.javafx.CosmeticsFX.MenuTree;
 import lt.lb.commons.javafx.scenemanagement.Frame;
 import lt.lb.commons.javafx.scenemanagement.InjectableController;
@@ -59,6 +61,8 @@ public class MainWindowController implements InjectableController {
 
     @FXML
     public TableView<FileEntity> table;
+    
+    ExtTableView view;
 
     @Override
     public void inject(Frame frame, URL url, ResourceBundle rb) {
@@ -71,6 +75,8 @@ public class MainWindowController implements InjectableController {
 
     @Override
     public void initialize() {
+        
+        
         selectionNotEmpty = Bindings.isNotEmpty(table.getSelectionModel().getSelectedItems());
         selectionIsTextFile = selectionNotEmpty.and(Bindings.createBooleanBinding(() -> {
             FileEntity selectedItem = table.getSelectionModel().getSelectedItem();
@@ -105,7 +111,7 @@ public class MainWindowController implements InjectableController {
 
         menuTree.addMenuItem(rename, "Rename");
         MenuItem delete = CosmeticsFX.simpleMenuItem("Delete", (event) -> {
-            FAPI.deleteFile(table.getSelectionModel().getSelectedItem());
+            FS.deleteFile(table.getSelectionModel().getSelectedItem());
             Main.updateAllWindows();
         }, selectionNotEmpty);
         menuTree.addMenuItem(delete, "Delete");
@@ -115,8 +121,8 @@ public class MainWindowController implements InjectableController {
 
         MenuItem addNewTextFile = CosmeticsFX.simpleMenuItem("Text file", (event) -> {
             Q.submit(() -> {
-                FileEntity textFile = FAPI.createTextFile("New file.txt", "");
-                FAPI.addAssignFolder(folder, textFile);
+                FileEntity textFile = FS.createTextFile("New file.txt", "");
+                FS.addAssignFolder(folder, textFile);
             });
 
             Main.updateAllWindows();
@@ -125,10 +131,10 @@ public class MainWindowController implements InjectableController {
         menuTree.addMenuItem(addNewTextFile, addMenu.getText(), addNewTextFile.getText());
         MenuItem addNewFolder = CosmeticsFX.simpleMenuItem("Folder", (event) -> {
             Optional<Throwable> submit = Q.submit(() -> {
-                FileEntityFolder newFolder = FAPI.createFolder("New folder");
-                FAPI.addAssignFolder(folder, newFolder);
+                FileEntityFolder newFolder = FS.createFolder("New folder");
+                FS.addAssignFolder(folder, newFolder);
             });
-            FAPI.report(submit);
+            FS.report(submit);
             Main.updateAllWindows();
         }, isFolder);
         menuTree.addMenuItem(addNewFolder, addMenu.getText(), addNewFolder.getText());
@@ -141,16 +147,19 @@ public class MainWindowController implements InjectableController {
             if (selectedItem instanceof FileEntityFolder) {
                 if (event.getClickCount() >= 2) {
                     this.folder = F.cast(selectedItem);
+                    this.update();
                 }
-                this.update();
             }
         });
-        table.setItems(files);
+        view = new ExtTableView(table);
+        view.prepareChangeListeners();
+        
     }
 
     @Override
     public void update() {
-        files.setAll(filePopulatingFunction.get());
+        Log.print("Update");
+        view.updateContentsAndSort(filePopulatingFunction.get());
         TableColumn<FileEntity, ?> get = table.getColumns().get(0);
         
         isFolder.set(folder != null);
@@ -169,11 +178,11 @@ public class MainWindowController implements InjectableController {
     public void fullTextSearch() {
         String ss = textField.getText();
         
-        Main.makeNewWindow(()->FAPI.fullTextSearch(ss),"Seach text :\""+ss+"\"");
+        Main.makeNewWindow(()->FS.fullTextSearch(ss),"Seach text :\""+ss+"\"");
     }
 
     public void up() {
-        Optional<FileEntityFolder> parentOptional = FAPI.getParent(folder);
+        Optional<FileEntityFolder> parentOptional = FS.getParent(folder);
         if (parentOptional.isPresent()) {
             folder = parentOptional.get();
             update();

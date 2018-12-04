@@ -20,6 +20,7 @@ import lt.lb.commons.UUIDgenerator;
 @PersistenceCapable
 public class MetaList {
 
+    public static transient String clsName = MetaList.class.getName();
     @PrimaryKey
     public String id = UUIDgenerator.nextUUID(this.getClass().getSimpleName());
 
@@ -49,19 +50,19 @@ public class MetaList {
     }
 
     public String getString(String name) {
-        
+
         EAValue get = this.get(name);
-        if(get instanceof EAVString){
-            EAVString val = (EAVString)get;
+        if (get instanceof EAVString) {
+            EAVString val = (EAVString) get;
             return val.get();
         }
         return null;
     }
 
     public Double getDecimal(String name) {
-       EAValue get = this.get(name);
-        if(get instanceof EAVDecimal){
-            EAVDecimal val = (EAVDecimal)get;
+        EAValue get = this.get(name);
+        if (get instanceof EAVDecimal) {
+            EAVDecimal val = (EAVDecimal) get;
             return val.get();
         }
         return null;
@@ -69,8 +70,8 @@ public class MetaList {
 
     public Date getDate(String name) {
         EAValue get = this.get(name);
-        if(get instanceof EAVDate){
-            EAVDate val = (EAVDate)get;
+        if (get instanceof EAVDate) {
+            EAVDate val = (EAVDate) get;
             return val.get();
         }
         return null;
@@ -78,8 +79,8 @@ public class MetaList {
 
     public Long getInteger(String name) {
         EAValue get = this.get(name);
-        if(get instanceof EAVInteger){
-            EAVInteger val = (EAVInteger)get;
+        if (get instanceof EAVInteger) {
+            EAVInteger val = (EAVInteger) get;
             return val.get();
         }
         return null;
@@ -87,8 +88,8 @@ public class MetaList {
 
     public Boolean getBoolean(String name) {
         EAValue get = this.get(name);
-        if(get instanceof EAVBoolean){
-            EAVBoolean val = (EAVBoolean)get;
+        if (get instanceof EAVBoolean) {
+            EAVBoolean val = (EAVBoolean) get;
             return val.get();
         }
         return null;
