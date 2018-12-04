@@ -7,11 +7,7 @@ package lt.lb.objectdbjavafx.model;
 
 import java.util.HashSet;
 import java.util.Set;
-import javax.jdo.PersistenceManager;
-import javax.jdo.Query;
 import javax.jdo.annotations.PersistenceCapable;
-import lt.lb.commons.containers.NumberValue;
-import lt.lb.objectdbjavafx.Q;
 
 /**
  *
@@ -20,7 +16,7 @@ import lt.lb.objectdbjavafx.Q;
 @PersistenceCapable
 public class FileEntityFolder extends FileEntity {
 
-    public static transient String clsName = FileEntityFolder.class.getName();
+    public static final String clsName = FileEntityFolder.class.getName();
     private Set<FileEntity> files = new HashSet<>();
 
     public Set<FileEntity> getFiles() {

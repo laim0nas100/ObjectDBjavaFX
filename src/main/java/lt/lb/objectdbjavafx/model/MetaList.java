@@ -20,14 +20,14 @@ import lt.lb.commons.UUIDgenerator;
 @PersistenceCapable
 public class MetaList {
 
-    public static transient String clsName = MetaList.class.getName();
+    public static final String clsName = MetaList.class.getName();
     @PrimaryKey
     public String id = UUIDgenerator.nextUUID(this.getClass().getSimpleName());
 
     public HashMap<String, EAValue> attributes = new HashMap<>();
 
     public void addAttribute(EAValue m) {
-        this.attributes.put(m.meta.name, m);
+        this.attributes.put(m.getMeta().getName(), m);
     }
 
     public Boolean hasMetaName(String name) {

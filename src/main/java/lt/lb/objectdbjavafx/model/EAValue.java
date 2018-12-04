@@ -18,12 +18,12 @@ import lt.lb.commons.interfaces.ValueProxy;
 @PersistenceCapable
 public class EAValue implements Serializable, ValueProxy<Object> {
 
-    public static transient String clsName = EAValue.class.getName();
+    public static final String clsName = EAValue.class.getName();
     
     @PrimaryKey
-    public String id = UUIDgenerator.nextUUID(this.getClass().getSimpleName());
+    private String id = UUIDgenerator.nextUUID(this.getClass().getSimpleName());
 
-    public Meta meta;
+    private Meta meta;
 
     public EAValue() {
     }
@@ -41,5 +41,23 @@ public class EAValue implements Serializable, ValueProxy<Object> {
     @Override
     public void set(Object v) {
     }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public Meta getMeta() {
+        return meta;
+    }
+
+    public void setMeta(Meta meta) {
+        this.meta = meta;
+    }
+    
+    
 
 }

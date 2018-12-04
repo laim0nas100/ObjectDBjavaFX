@@ -33,7 +33,7 @@ public class FS {
     
     public static void addAssignFolder(FileEntityFolder folder, FileEntity file) {
         folder.getFiles().add(file);
-        file.meta.addAttribute(valueOf(MetaEnums.parentID, folder.id));
+        file.getMeta().addAttribute(valueOf(MetaEnums.parentID, folder.getId()));
     }
     
     public static void report(Optional<Throwable> t) {
@@ -99,12 +99,12 @@ public class FS {
         if (val == null) {
             throw new IllegalArgumentException("Unsupported argument" + ob);
         }
-        val.meta = meta;
-        val.set(ob);
-        if (recievedType != val.meta.valType) {
-            throw new IllegalArgumentException("EAValue type and meta type missmatch recieved:" + recievedType + " expected:" + val.meta.valType);
-        }
+        val.setMeta(meta);
         
+        if (recievedType != val.getMeta().getValType()) {
+            throw new IllegalArgumentException("EAValue type and meta type missmatch recieved:" + recievedType + " expected:" + val.getMeta().getValType());
+        }
+        val.set(ob);
         return val;
         
     }
@@ -112,11 +112,12 @@ public class FS {
     public static <T extends FileEntity> T createFile(Supplier<T> sup, String name) {
         
         T ent = sup.get();
-        ent.meta = new MetaList();
+        ent.setMeta(new MetaList());
         Date now = new Date();
-        ent.meta.addAttribute(FS.valueOf(MetaEnums.fileName, name));
-        ent.meta.addAttribute(FS.valueOf(MetaEnums.createdDate, now));
-        ent.meta.addAttribute(FS.valueOf(MetaEnums.lastModifiedDate, now));
+        
+        ent.getMeta().addAttribute(FS.valueOf(MetaEnums.fileName, name));
+        ent.getMeta().addAttribute(FS.valueOf(MetaEnums.createdDate, now));
+        ent.getMeta().addAttribute(FS.valueOf(MetaEnums.lastModifiedDate, now));
         report(Q.submit((t) -> {
             t.makePersistent(ent);
         }));
@@ -125,7 +126,7 @@ public class FS {
     
     public static FileEntity createTextFile(String name, String text) {
         FileEntity file = createFile(FileEntity::new, name);
-        file.meta.addAttribute(FS.valueOf(MetaEnums.textContent, text));
+        file.getMeta().addAttribute(FS.valueOf(MetaEnums.textContent, text));
         return file;
     }
     
@@ -163,7 +164,7 @@ public class FS {
             Query q = pm.newQuery(EAValue.class);
             q.declareParameters("String ID");
             q.setFilter("this.meta.id == ID");
-            Q.getAll(listValue, q, meta.id);
+            Q.getAll(listValue, q, meta.getId());
         }));
         return listValue.get();
     }
@@ -185,7 +186,7 @@ public class FS {
         report(Q.submit(pm -> {
             FileEntity objectById = pm.getObjectById(FileEntity.class, id);
             if (objectById != null) {
-                EAVString get = F.cast(objectById.meta.get(MetaEnums.fileName));
+                EAVString get = F.cast(objectById.getMeta().get(MetaEnums.fileName));
                 get.set(newName);
                 bool.setTrue();
             }
@@ -199,7 +200,7 @@ public class FS {
             Query newQuery = pm.newQuery(FileEntityFolder.class);
             newQuery.declareParameters("String ID");
             newQuery.setFilter("this.id == ID");
-            Q.getFirst(val, newQuery, file.meta.getString(MetaEnums.parentID));
+            Q.getFirst(val, newQuery, file.getMeta().getString(MetaEnums.parentID));
         }));
         
         return Optional.ofNullable(val.get());

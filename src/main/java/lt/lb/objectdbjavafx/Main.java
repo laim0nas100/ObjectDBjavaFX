@@ -21,6 +21,7 @@ import lt.lb.commons.containers.LazyValue;
 import lt.lb.commons.javafx.FX;
 import lt.lb.commons.javafx.scenemanagement.Frame;
 import lt.lb.commons.javafx.scenemanagement.MultiStageManager;
+import lt.lb.objectdbjavafx.model.EAVString;
 import lt.lb.objectdbjavafx.model.EAValue;
 import lt.lb.objectdbjavafx.model.FileEntity;
 import lt.lb.objectdbjavafx.model.FileEntityFolder;
@@ -121,5 +122,6 @@ public class Main {
                 newFrame.getStage().show();
             });
         });
+
     }
 }

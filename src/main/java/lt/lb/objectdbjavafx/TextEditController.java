@@ -39,7 +39,7 @@ public class TextEditController implements InjectableController {
     @Override
     public void update() {
         FX.submit(() -> {
-            String string = file.meta.getString(MetaEnums.textContent);
+            String string = file.getMeta().getString(MetaEnums.textContent);
             Log.print("Text:", string);
             area.setText(string);
         });
@@ -47,8 +47,8 @@ public class TextEditController implements InjectableController {
 
     public void save() {
         Q.submit((pm) -> {
-            file.meta.get(MetaEnums.textContent).setValue(area.getText());
-            file.meta.get(MetaEnums.lastModifiedDate).setValue(new Date());
+            file.getMeta().get(MetaEnums.textContent).setValue(area.getText());
+            file.getMeta().get(MetaEnums.lastModifiedDate).setValue(new Date());
         });
     }
 

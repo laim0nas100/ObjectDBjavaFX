@@ -16,8 +16,8 @@ import lt.lb.commons.F;
 @PersistenceCapable
 public class EAVDate extends EAValue{
 
-    public static transient String clsName = EAVDate.class.getName();
-    public Date date;
+    public static final String clsName = EAVDate.class.getName();
+    private Date date;
     @Override
     public Date get() {
         return date;

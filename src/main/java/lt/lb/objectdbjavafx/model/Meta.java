@@ -16,17 +16,43 @@ import lt.lb.commons.UUIDgenerator;
  */
 @PersistenceCapable
 public class Meta implements Serializable {
-public static transient String clsName = Meta.class.getName();
+public static final String clsName = Meta.class.getName();
     
     @PrimaryKey
-    public String id = UUIDgenerator.nextUUID(this.getClass().getSimpleName());
-    public String name;
-    public EAVType valType;
+    private String id = UUIDgenerator.nextUUID(this.getClass().getSimpleName());
+    private String name;
+    private EAVType valType;
     
     public Meta(){};
     public Meta(String str, EAVType type){
         this.name = str;
         this.valType = type;
     }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public EAVType getValType() {
+        return valType;
+    }
+
+    public void setValType(EAVType valType) {
+        this.valType = valType;
+    }
+    
+    
 
 }

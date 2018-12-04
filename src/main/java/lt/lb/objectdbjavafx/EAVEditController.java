@@ -44,15 +44,15 @@ public class EAVEditController implements InjectableController {
     @Override
     public void update() {
         field.setText(value.get() + "");
-        label.setText("Edit EAVValue with meta "+value.meta.name+" of type "+value.meta.valType);
+        label.setText("Edit EAVValue with meta "+value.getMeta().getName()+" of type "+value.getMeta().getValType());
     }
 
     public void save() {
 
         try {
-            Meta meta = value.meta;
-            if (null != meta.valType) {
-                switch (meta.valType) {
+            Meta meta = value.getMeta();
+            if (null != meta.getValType()) {
+                switch (meta.getValType()) {
                     case BOOLEAN:
                         value.set(Boolean.parseBoolean(field.getText()));
                         break;

@@ -6,24 +6,25 @@
 package lt.lb.objectdbjavafx.model;
 
 import javax.jdo.annotations.PersistenceCapable;
-import lt.lb.commons.F;
 
 /**
  *
  * @author laim0nas100
  */
 @PersistenceCapable
-public class EAVString extends EAValue{
-public static transient String clsName = EAVString.class.getName();
-    public String str;
+public class EAVString extends EAValue {
+
+    public static final String clsName = EAVString.class.getName();
+    private String string;
+
     @Override
     public String get() {
-        return str;
+        return string;
     }
 
     @Override
     public void set(Object v) {
-        this.str = F.cast(v);
+        this.string = (String) v;
     }
-    
+
 }

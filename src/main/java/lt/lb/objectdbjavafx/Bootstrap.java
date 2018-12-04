@@ -5,6 +5,7 @@
  */
 package lt.lb.objectdbjavafx;
 
+import com.objectdb.Enhancer;
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -45,7 +46,7 @@ public class Bootstrap {
             Log.print("Bootsrap FS");
             FileEntityFolder folder = FS.createFolder("MainFolder");
 
-            folder.meta.addAttribute(FS.valueOf("root", true));
+            folder.getMeta().addAttribute(FS.valueOf("root", true));
 
             F.unsafeRun(() -> {
                 FileEntity f1 = FS.createTextFile("File1.txt", "Some text f1");
@@ -93,8 +94,6 @@ public class Bootstrap {
                 }
             });
         });
-        
-        com.objectdb.Enhancer.enhance("lt.lb.objectdbjavafx.model.*");
 
         // set up db
         Bootstrap.bootstrapMeta();

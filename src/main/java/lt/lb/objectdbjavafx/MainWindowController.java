@@ -83,17 +83,17 @@ public class MainWindowController implements InjectableController {
             if (selectedItem == null) {
                 return false;
             }
-            return selectedItem.meta.hasMetaName(MetaEnums.textContent);
+            return selectedItem.getMeta().hasMetaName(MetaEnums.textContent);
         }, selectionNotEmpty));
         TableColumn<FileEntity, String> col_1 = new TableColumn<>("Name");
-        col_1.setCellValueFactory((CellDataFeatures<FileEntity, String> cellData) -> new BasicProperty(cellData.getValue().meta.get("fileName").get()));
+        col_1.setCellValueFactory((CellDataFeatures<FileEntity, String> cellData) -> new BasicProperty(cellData.getValue().getMeta().get("fileName").get()));
         TableColumn<FileEntity, String> col_2 = new TableColumn<>("Type");
         col_2.setCellValueFactory((CellDataFeatures<FileEntity, String> cellData) -> {
             return new BasicProperty(cellData.getValue().getClass().getSimpleName());
         });
         TableColumn<FileEntity, String> col_3 = new TableColumn<>("ID");
         col_3.setCellValueFactory((CellDataFeatures<FileEntity, String> cellData) -> {
-            return new BasicProperty<>(cellData.getValue().id);
+            return new BasicProperty<>(cellData.getValue().getId());
         });
 
         table.getColumns().addAll(Arrays.asList(col_1, col_2, col_3));
@@ -105,7 +105,7 @@ public class MainWindowController implements InjectableController {
         }, selectionIsTextFile);
         menuTree.addMenuItem(edit, "Edit");
         MenuItem rename = CosmeticsFX.simpleMenuItem("Rename", (event) -> {
-            EAValue get = table.getSelectionModel().getSelectedItem().meta.get(MetaEnums.fileName);
+            EAValue get = table.getSelectionModel().getSelectedItem().getMeta().get(MetaEnums.fileName);
             Main.makeMetaEditWindow(get);
         }, selectionNotEmpty);
 
@@ -165,7 +165,7 @@ public class MainWindowController implements InjectableController {
         isFolder.set(folder != null);
         if (isFolder.get()) {
             
-            this.currentFolderName.setText(folder.meta.getString(MetaEnums.fileName));
+            this.currentFolderName.setText(folder.getMeta().getString(MetaEnums.fileName));
         } else {
             buttonUp.setDisable(true);
             this.currentFolderName.setText("");

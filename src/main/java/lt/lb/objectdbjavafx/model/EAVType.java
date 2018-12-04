@@ -5,13 +5,10 @@
  */
 package lt.lb.objectdbjavafx.model;
 
-import javax.jdo.annotations.PersistenceCapable;
-
 /**
  *
  * @author laim0nas100
  */
-@PersistenceCapable
 public enum EAVType {
     DECIMAL,INTEGER,STRING,BOOLEAN,DATE
 }

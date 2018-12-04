@@ -16,18 +16,36 @@ import lt.lb.commons.UUIDgenerator;
  */
 @PersistenceCapable
 public class FileEntity {
-public static transient String clsName = FileEntity.class.getName();
+public static final String clsName = FileEntity.class.getName();
     @PrimaryKey
-    public String id = UUIDgenerator.nextUUID(this.getClass().getSimpleName());
+    private String id = UUIDgenerator.nextUUID(this.getClass().getSimpleName());
     
     public Long count(){
         return 1L;
     }
-    public MetaList meta;
+    private MetaList meta;
     
     @Override
     public String toString(){
         return id;
     }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public MetaList getMeta() {
+        return meta;
+    }
+
+    public void setMeta(MetaList meta) {
+        this.meta = meta;
+    }
+    
+    
 
 }
