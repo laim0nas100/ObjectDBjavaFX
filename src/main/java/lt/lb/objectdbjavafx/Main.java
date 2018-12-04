@@ -105,6 +105,14 @@ public class Main {
 
     public static void main(String... args) {
 
+        Log main = Log.main();
+        main.surroundString = false;
+        main.keepBufferForFile = false;
+        main.stackTrace = true;
+        main.timeStamp = false;
+        main.threadName = false;
+        main.display = true;
+        
         URL resource = sceneManager.getResource("/fxml/Launcher.fxml");
         F.unsafeRun(() -> {
             Frame newFrame = sceneManager.newFrame(resource, "Launcher");

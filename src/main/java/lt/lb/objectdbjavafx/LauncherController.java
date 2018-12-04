@@ -39,7 +39,7 @@ public class LauncherController implements InjectableController {
     }
 
     public void tests() {
-        Log.print("Tests!!!");
+        Log.println("", "#############", "   Tests!!!","#############");
         JDOTests.selectAllFolders();
         JDOTests.selectJustFiles();
         JDOTests.selectEAVbyMetaRoot();
