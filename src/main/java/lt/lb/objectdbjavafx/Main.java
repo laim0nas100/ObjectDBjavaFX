@@ -6,11 +6,7 @@
 package lt.lb.objectdbjavafx;
 
 import com.objectdb.Utilities;
-import java.io.File;
 import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Collection;
 import java.util.function.Supplier;
 import javax.jdo.PersistenceManager;
@@ -21,7 +17,6 @@ import lt.lb.commons.containers.LazyValue;
 import lt.lb.commons.javafx.FX;
 import lt.lb.commons.javafx.scenemanagement.Frame;
 import lt.lb.commons.javafx.scenemanagement.MultiStageManager;
-import lt.lb.objectdbjavafx.model.EAVString;
 import lt.lb.objectdbjavafx.model.EAValue;
 import lt.lb.objectdbjavafx.model.FileEntity;
 import lt.lb.objectdbjavafx.model.FileEntityFolder;
@@ -31,8 +26,6 @@ import lt.lb.objectdbjavafx.model.FileEntityFolder;
  * @author laim0nas100
  */
 public class Main {
-
-    public static final boolean tests = true;
 
     public static final String databaseUri = System.getProperty("user.dir") + "/db/database.odb";
     public static final LazyValue<PersistenceManager> pm = LazyValue.of(() -> {

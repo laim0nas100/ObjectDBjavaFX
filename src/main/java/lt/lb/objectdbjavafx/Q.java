@@ -31,9 +31,6 @@ public class Q {
     public static String esc(String str) {
         return "\"" + str + "\"";
     }
-    public static String cls(Class cls){
-        return cls.getName();
-    }
 
     public static void persist(FileEntity ent) {
         Q.submit(pm -> {
@@ -93,16 +90,11 @@ public class Q {
             t.begin();
         }
         Optional<Throwable> checkedRun = F.checkedRun(run);
-        if (!readonly) {
-            if (!checkedRun.isPresent()) { // no exception
-                if (t.isActive()) {
-                    t.commit();
-                }
+        if (!readonly && t.isActive()) {
+            if (checkedRun.isPresent()) {
+                t.rollback();
             } else {
-                if (t.isActive()) {
-                    t.rollback();
-                }
-
+                t.commit();
             }
         }
         inside.set(false);
