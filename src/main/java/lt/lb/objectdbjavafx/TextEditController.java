@@ -47,8 +47,10 @@ public class TextEditController implements InjectableController {
 
     public void save() {
         Q.submit((pm) -> {
+            
             file.getMeta().get(MetaEnums.textContent).setValue(area.getText());
             file.getMeta().get(MetaEnums.lastModifiedDate).setValue(new Date());
+            pm.refresh(file);
         });
     }
 
