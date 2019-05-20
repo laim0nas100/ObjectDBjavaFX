@@ -28,7 +28,7 @@ import lt.lb.objectdbjavafx.model.FileEntityFolder;
 public class Main {
 
     public static final String databaseUri = System.getProperty("user.dir") + "/db/database.odb";
-    public static final LazyValue<PersistenceManager> pm = LazyValue.of(() -> {
+    public static final LazyValue<PersistenceManager> pm = new LazyValue<>(() -> {
         return Utilities.getPersistenceManager(databaseUri);
     });
 

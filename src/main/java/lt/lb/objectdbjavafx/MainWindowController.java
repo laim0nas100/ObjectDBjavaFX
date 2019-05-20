@@ -24,7 +24,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import lt.lb.commons.F;
 import lt.lb.commons.Log;
-import lt.lb.commons.containers.BasicProperty;
+import lt.lb.commons.javafx.BasicProperty;
 import lt.lb.commons.javafx.CosmeticsFX;
 import lt.lb.commons.javafx.CosmeticsFX.ExtTableView;
 import lt.lb.commons.javafx.CosmeticsFX.MenuTree;
@@ -59,7 +59,7 @@ public class MainWindowController implements InjectableController {
 
     @FXML
     public TableView<FileEntity> table;
-    
+
     ExtTableView view;
 
     @Override
@@ -73,8 +73,7 @@ public class MainWindowController implements InjectableController {
 
     @Override
     public void initialize() {
-        
-        
+
         selectionNotEmpty = Bindings.isNotEmpty(table.getSelectionModel().getSelectedItems());
         selectionIsTextFile = selectionNotEmpty.and(Bindings.createBooleanBinding(() -> {
             FileEntity selectedItem = table.getSelectionModel().getSelectedItem();
@@ -151,7 +150,7 @@ public class MainWindowController implements InjectableController {
         });
         view = new ExtTableView(table);
         view.prepareChangeListeners();
-        
+
     }
 
     @Override
@@ -159,10 +158,10 @@ public class MainWindowController implements InjectableController {
         Log.print("Update");
         view.updateContentsAndSort(filePopulatingFunction.get());
         TableColumn<FileEntity, ?> get = table.getColumns().get(0);
-        
+
         isFolder.set(folder != null);
         if (isFolder.get()) {
-            
+
             this.currentFolderName.setText(folder.getMeta().getString(MetaEnums.fileName));
         } else {
             buttonUp.setDisable(true);
@@ -175,8 +174,8 @@ public class MainWindowController implements InjectableController {
 
     public void fullTextSearch() {
         String ss = textField.getText();
-        
-        Main.makeNewWindow(()->FS.fullTextSearch(ss),"Seach text :\""+ss+"\"");
+
+        Main.makeNewWindow(() -> FS.fullTextSearch(ss), "Seach text :\"" + ss + "\"");
     }
 
     public void up() {
